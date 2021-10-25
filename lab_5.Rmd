@@ -75,3 +75,64 @@ Meaning of the p-value is that, if these are drawn from populations from the sam
 
 The mean heights of oak and pine trees were (X +- Y) and (X +- Y), respectively, and the difference was not significant (t(`r trees_t$parameter`) = `r trees_t$statistic`, p = `r trees_t$p.value`)
 - Format with which we summarize results of t-test: "t(df) = t-statistic, p = p-value"
+
+## Part 3: Another t-test with cars data
+
+Using the `mpg` dataset
+
+### Take a look at the data
+
+```{r}
+compact_suv <- mpg %>% 
+  filter(class %in% c("compact", "suv"))
+
+# Check for remaining levels
+unique(compact_suv$class)
+```
+
+Create a histogram of city gas mileage (city) faceted by class starting from compact_suv
+
+```{r}
+ggplot(data = compact_suv, aes(x = cty)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~class)
+
+ggplot(data = compact_suv, aes(sample = cty)) +
+  geom_qq() + 
+  facet_wrap(~class) +
+  geom_qq_line()
+```
+
+Find some summary statistics for each group
+```{r}
+car_stats <- compact_suv %>% 
+  group_by(class) %>% 
+  summarize(
+    mean_city = round(mean(cty), 2), # you can round here, but it's better to round in the data visualization. here it's ok to round because this value is only being used for visualization, not for further calculations 
+    sd_city = round(sd(cty), 2),
+    sample_size = n()
+  )
+
+car_stats
+```
+
+The t.test() function REALLY wants vectors of things. So to run a t-test we want to pull out vectors from our data frame. Use the `pull()` function to pull out a vector from a data frame
+
+```{r}
+compact_sample <- compact_suv %>% 
+  filter(class == "compact") %>% 
+  pull(cty)
+
+# Do the same thing to get a vector of city gas mileages for SUVs
+
+suv_sample <- compact_suv %>% 
+  filter(class == "suv") %>% 
+  pull(cty)
+```
+
+H0: Mean city gas mileages for SUVs and compact cars are the same
+
+```{r}
+t.test(compact_sample, suv_sample)
+```
+
