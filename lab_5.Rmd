@@ -42,8 +42,36 @@ otter_ci <- t.test(otter_lengths) # returns one-sample t-test. default null hypo
 otter_sd <- sd(otter_lengths)
 ```
 
-Mean otter length is 32.8 inches, $\pm$ 10.8 (mean $\pm$, n = 7) with a 95% confidence interval of [22.8 ,42.9)]
+Mean otter length is 32.9 inches, $\pm$ 10.8 (mean $\pm$, n = 7) with a 95% confidence interval of [22.8 ,42.9)]
 
 #### Now, using in-line referencing
 
-Mean otter length is `r round(otter_ci$estimate, 1)` inches. (Hover over the value and click cmnd-return to see value.) (`round(value, significant figure)` rounds a value to the specified significant figure)
+Mean otter length is `r round(otter_ci$estimate, 1)` inches with a 95% confience interval of [`r round(otter_ci$conf.int[1], 1)`, `r round(otter_ci$conf.int[2], 1)`] inches
+
+- Hover over the value and click cmnd-return to see value.
+- `round(value, significant figure)` rounds a value to the specified significant figure
+- the generic version of in-line referencing is objectname$valuename
+- if the value you are calling is a vector and you want to reference a specific value within that vector, then the syntax is `objectname$valuename[#]` where `#` refers to the position in that vector/list
+
+## Part 2: Two-sample t-tests
+
+### Example 1
+
+Make two mock samples, and ask the question: do we have sufficient evidence to make us reject the null hypothesis that these samples were drawn from populations with the same mean?
+
+```{r}
+# Make my mock samples
+oak_trees <- c(20, 19, 24, 28, 30, 35, 12, 32)
+  
+pine_trees <- c( 39, 41, 35, 22, 19, 37, 18)
+
+# Two-sample t-test
+trees_t <- t.test(oak_trees, pine_trees)
+
+# Null hypothesis: mean heights are the same
+# i.e.: Trees are drawn from populations with the same mean height
+```
+Meaning of the p-value is that, if these are drawn from populations from the same mean, there is a 29% chance that two means are at least as different as 1.1 feet
+
+The mean heights of oak and pine trees were (X +- Y) and (X +- Y), respectively, and the difference was not significant (t(`r trees_t$parameter`) = `r trees_t$statistic`, p = `r trees_t$p.value`)
+- Format with which we summarize results of t-test: "t(df) = t-statistic, p = p-value"

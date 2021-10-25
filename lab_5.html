@@ -191,6 +191,10 @@ pre code {
 <ul>
 <li><a href="#example-1">Example 1</a></li>
 </ul></li>
+<li><a href="#part-2-two-sample-t-tests">Part 2: Two-sample t-tests</a>
+<ul>
+<li><a href="#example-1-1">Example 1</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -222,11 +226,37 @@ otter_ci &lt;- t.test(otter_lengths) # returns one-sample t-test. default null h
 
 # Find the standard deviation
 otter_sd &lt;- sd(otter_lengths)</code></pre>
-<p>Mean otter length is 32.8 inches, <span class="math inline">\(\pm\)</span> 10.8 (mean <span class="math inline">\(\pm\)</span>, n = 7) with a 95% confidence interval of [22.8 ,42.9)]</p>
+<p>Mean otter length is 32.9 inches, <span class="math inline">\(\pm\)</span> 10.8 (mean <span class="math inline">\(\pm\)</span>, n = 7) with a 95% confidence interval of [22.8 ,42.9)]</p>
 <div id="now-using-in-line-referencing" class="section level4">
 <h4>Now, using in-line referencing</h4>
-<p>Mean otter length is 32.9 inches. (Hover over the value and click cmnd-return to see value.) (<code>round(value, significant figure)</code> rounds a value to the specified significant figure)</p>
+<p>Mean otter length is 32.9 inches with a 95% confience interval of [22.8, 42.9] inches</p>
+<ul>
+<li>Hover over the value and click cmnd-return to see value.</li>
+<li><code>round(value, significant figure)</code> rounds a value to the specified significant figure</li>
+<li>the generic version of in-line referencing is objectname$valuename</li>
+<li>if the value you are calling is a vector and you want to reference a specific value within that vector, then the syntax is <code>objectname$valuename[#]</code> where <code>#</code> refers to the position in that vector/list</li>
+</ul>
 </div>
+</div>
+</div>
+<div id="part-2-two-sample-t-tests" class="section level2">
+<h2>Part 2: Two-sample t-tests</h2>
+<div id="example-1-1" class="section level3">
+<h3>Example 1</h3>
+<p>Make two mock samples, and ask the question: do we have sufficient evidence to make us reject the null hypothesis that these samples were drawn from populations with the same mean?</p>
+<pre class="r"><code># Make my mock samples
+oak_trees &lt;- c(20, 19, 24, 28, 30, 35, 12, 32)
+  
+pine_trees &lt;- c( 39, 41, 35, 22, 19, 37, 18)
+
+# Two-sample t-test
+trees_t &lt;- t.test(oak_trees, pine_trees)
+
+# Null hypothesis: mean heights are the same
+# i.e.: Trees are drawn from populations with the same mean height</code></pre>
+<p>Meaning of the p-value is that, if these are drawn from populations from the same mean, there is a 29% chance that two means are at least as different as 1.1 feet</p>
+<p>The mean heights of oak and pine trees were (X +- Y) and (X +- Y), respectively, and the difference was not significant (t(11.2093415) = -1.1016251, p = 0.2937169)</p>
+<p>“t(df) = t-statistic, p = p-value”</p>
 </div>
 </div>
 
